@@ -6,11 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class StartGame : MonoBehaviour
 {
-
     public int trialNum;
     public string trialName;
     public List<string> trials = new();
     public int winningScore;
+    
+    public string userInitial;
 
     private void Start()
     {
@@ -24,6 +25,7 @@ public class StartGame : MonoBehaviour
             trials[randomIndex] = temp;
         }
 
+        userInitial = GlobalControl.Instance.userInitial;
         GlobalControl.Instance.trials = trials; //set a global list of trials we can use in all of the scenes
 
 
@@ -34,16 +36,12 @@ public class StartGame : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))
         {
-            gameStart(); 
+            trialNum = 0; //set the trial number to the first item in the list
+            GlobalControl.Instance.trialNum = trialNum; //this will set the trialNum to the first in the list
+            Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_TRIALBEGUN", "LOCALSTARTTIME_" + System.DateTime.Now);
+            trialName = GlobalControl.Instance.trials[trialNum];
+            SceneManager.LoadScene(trialName);
         }
     }
 
-    void gameStart()
-    {
-        trialNum = 0; //set the trial number to the first item in the list
-        GlobalControl.Instance.trialNum = trialNum; //this will set the trialNum to the first in the list
-        Tinylytics.AnalyticsManager.LogCustomMetric("Game Start", "Start " + System.DateTime.Now);
-        trialName = GlobalControl.Instance.trials[trialNum];
-        SceneManager.LoadScene(trialName);
-    }
 }

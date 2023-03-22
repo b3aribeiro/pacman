@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     //-------------------------------------------------------------------
     // analytics variables
     
+    public string userInitial;
     public int trialNum;
     public string trialName;
     public List<string> trials;
@@ -89,29 +90,28 @@ public class GameManager : MonoBehaviour
         trialNum = GlobalControl.Instance.trialNum;
         trialName = GlobalControl.Instance.trialName;
         trials = GlobalControl.Instance.trials;
+        userInitial = GlobalControl.Instance.userInitial;
 	}
 
     public void PlayerHasClearedLevel()
-    {
-        //Tinylytics.AnalyticsManager.LogCustomMetric("Level Cleared", _variable.ToString());
+    {   
         _isGameOver = true;
-        SaveGame();
-        newTrial();
-    }
-
-    public void PlayerGetsEnergizer()
-    {
-        //Tinylytics.AnalyticsManager.LogCustomMetric("Energize Pacs", _playerEP.ToString());
-        _playerEP++;
-        Debug.Log("Player has collected" + _playerEP + "/4 Energizers");
+        Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_LEVELCLEARED", "ROUND_" + trialNum + "0/6_TIMEINSECONDS_" + Time.time);
         ResetRound();
-        
     }
 
-    public void GhostHitsPlayer()
+    public void PlayerGetsEnergizer(Vector2 _PelletPos)
     {
-        //Tinylytics.AnalyticsManager.LogCustomMetric("Computer Score", _isGameOver.ToString());
+        _playerEP++;
+        Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_PELLETCOLLECTED", "PELLET_" + _playerEP.ToString()+ "/4_ATPOSITION_ " + _PelletPos + "_TIMEINSECONDS_" + Time.time);
+        Debug.Log( _playerEP + "/4 POWER PELLET" + _PelletPos);
+    }
+
+    public void GhostHitsPlayer(string _GhostName, Vector2 _GhostPos)
+    {   
         _isGameOver = true;
+        Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_HASDIED", "COLLIDEDWITH_" + _GhostName + "_ATPOSITION_ " + _GhostPos + "_TIMEINSECONDS_" + Time.time);
+        Debug.Log( _playerEP + "/4 POWER PELLET" + _GhostPos);
         ResetRound();
 
     }
@@ -121,25 +121,24 @@ public class GameManager : MonoBehaviour
         GlobalControl.Instance.trialNum = trialNum;
         GlobalControl.Instance.trialName = trialName;
         GlobalControl.Instance.trials = trials;
+        GlobalControl.Instance.userInitial = userInitial;
     }
 
     private void ResetRound()
     {
         if (_playerEP == winningScore || _isGameOver == true)
         {
-			Debug.Log("Ready to Reset Round");
-            trialNum = trialNum + 1;
-            SaveGame();
-            ResetScene();
-            newTrial();
             _isGameOver = false;
             _playerEP = 0;
+            trialNum = trialNum + 1;
+            ResetScene();
+            newTrial();
         }
     }
 
     void newTrial()
     {
-        Tinylytics.AnalyticsManager.LogCustomMetric("TrialNumber_" + trialNum.ToString() + "/10" + " TrialName_" + trialName.ToString(), "Variable");
+        //Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_ROUNDSTARTED", trialNum.ToString() + "/6 at " + trialName.ToString() + System.DateTime.Now);
         
         if (trialNum < trials.Count)
         {
@@ -162,7 +161,7 @@ public class GameManager : MonoBehaviour
     }
       private IEnumerator WaitForSceneLoad()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(2);
         SceneManager.LoadScene(sceneName);
     }
 
@@ -272,6 +271,8 @@ public class GameManager : MonoBehaviour
         UIScript ui = GameObject.FindObjectOfType<UIScript>();
         Destroy(ui.lives[ui.lives.Count - 1]);
         ui.lives.RemoveAt(ui.lives.Count - 1);
+        
+        gui.H_ShowGameOverScreen();
     }
 
     public static void DestroySelf()

@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class Interstitial : MonoBehaviour
 {
+    public string userInitial;
     public int trialNum;
     public string trialName;
     public List<string> trials;
@@ -18,6 +19,7 @@ public class Interstitial : MonoBehaviour
         trialNum = GlobalControl.Instance.trialNum;
         trialName = GlobalControl.Instance.trialName;
         trials = GlobalControl.Instance.trials;
+        userInitial = GlobalControl.Instance.userInitial;
 
         MessagePlayer();
     }
@@ -27,30 +29,21 @@ public class Interstitial : MonoBehaviour
         GlobalControl.Instance.trialNum = trialNum;
         GlobalControl.Instance.trialName = trialName;
         GlobalControl.Instance.trials = trials;
+        GlobalControl.Instance.userInitial = userInitial;
     }
 
     void Update()
     {
         if (Input.GetKeyDown("space"))
         {
-            newTrial();
+            SceneManager.LoadScene(trialName);
         }
 
     }
 
     void MessagePlayer()
     {
-        var _trialNumberForHumans = trialNum + 1; //lol this is because trialNum starts at 0 (as do all array values) but people don't start counting with zero...mostly...
+        var _trialNumberForHumans = trialNum + 1; 
         message.text = "trial " + _trialNumberForHumans + "\n" +"Press Space to play again";
-    }
-
-    void newTrial()
-    {
-
-        //Tinylytics.AnalyticsManager.LogCustomMetric("New Trial Number: ", trialNum.ToString());
-        //Tinylytics.AnalyticsManager.LogCustomMetric("New Trial Name: ", trialName);
-
-        SceneManager.LoadScene(trialName);
-
     }
 }

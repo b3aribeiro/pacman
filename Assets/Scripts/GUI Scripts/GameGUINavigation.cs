@@ -83,7 +83,8 @@ public class GameGUINavigation : MonoBehaviour {
         Debug.Log("Showing GAME OVER Screen");
         GameOverCanvas.enabled = true;
         yield return new WaitForSeconds(2);
-        Menu();
+        //Menu();
+		GameOverCanvas.enabled = false;
     }
 
 	public void getScoresMenu()

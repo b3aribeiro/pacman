@@ -21,21 +21,18 @@ public class SaveInitials : MonoBehaviour
     public void InputName()
     {
         name = _inputField.text;
-        //Debug.Log(name);
-        Tinylytics.AnalyticsManager.LogCustomMetric("User Initials", name);
+        
+        GlobalControl.Instance.userInitial = name;
+        
+        Tinylytics.AnalyticsManager.LogCustomMetric("NEWUSERJOINED", name);
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            start_Opening();
+            SceneManager.LoadScene("Opening_Scene");
         }
-    }
-
-    void start_Opening()
-    {
-        SceneManager.LoadScene("Opening_Scene");
     }
 
 }

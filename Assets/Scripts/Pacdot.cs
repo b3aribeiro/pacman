@@ -24,7 +24,6 @@ public class Pacdot : MonoBehaviour {
 		    {
 				gm.PlayerHasClearedLevel();
 		        //GameObject.FindObjectOfType<GameGUINavigation>().LoadLevel();
-				Debug.Log("Player has collected all dots");
 		    }
 		}
 	}

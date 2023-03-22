@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class ResetTrials : MonoBehaviour
 {
+    public string userInitial;
     public int trialNum;
     public string trialName;
     public List<string> trials;
@@ -16,9 +17,7 @@ public class ResetTrials : MonoBehaviour
         trialName = GlobalControl.Instance.trialName;
         trials = GlobalControl.Instance.trials;
 
-        //if you want to log the time when the game ended, to compare with the time the game started, use this:
-        Tinylytics.AnalyticsManager.LogCustomMetric("Game Ended: ", "End:" + System.DateTime.Now);
-
+        userInitial = GlobalControl.Instance.userInitial;
     }
 
     public void SaveGame()
@@ -26,6 +25,7 @@ public class ResetTrials : MonoBehaviour
         GlobalControl.Instance.trialNum = trialNum;
         GlobalControl.Instance.trialName = trialName;
         GlobalControl.Instance.trials = trials;
+        GlobalControl.Instance.userInitial = userInitial;
     }
 
 }

@@ -5,9 +5,11 @@ using UnityEngine;
 public class GlobalControl : MonoBehaviour
 {
     public static GlobalControl Instance;
+    public string userInitial;
     public int trialNum;
     public string trialName;
     public List<string> trials;
+
 
 
     void Awake()
