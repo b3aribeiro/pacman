@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
         Debug.Log( _playerEP + "/4 POWER PELLET");
         lockAnim = GameObject.Find("lock_" + _playerEP.ToString()).GetComponent<Animator>();
         Debug.Log(lockAnim.name);
-        lockAnim.SetTrigger("locks");
+        lockAnim.SetTrigger("open");
         Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_PELLETCOLLECTED", "PELLET_" + _playerEP.ToString()+ "/4_ATPOSITION_ " + _PelletPos + "_TIMEINSECONDS_" + Time.time);
     }
 
