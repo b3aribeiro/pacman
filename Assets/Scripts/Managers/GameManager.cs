@@ -6,7 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour 
 {
+    public GameObject player;
+    public Transform playerPosition;
+    public Animator lockAnim;
 
+    public List<string> roundMovement = new List<string>();
     //--------------------------------------------------------
     // Game variables
 
@@ -85,12 +89,15 @@ public class GameManager : MonoBehaviour
 
 	void Start () 
 	{
+        Debug.Log("startmanager");
 		gameState = GameState.Init;
 
         trialNum = GlobalControl.Instance.trialNum;
         trialName = GlobalControl.Instance.trialName;
         trials = GlobalControl.Instance.trials;
         userInitial = GlobalControl.Instance.userInitial;
+
+        InvokeRepeating("CatchPosition", 0f, 1);  //0 delay, repeat every 1s 0f, 0.25f
 	}
 
     public void PlayerHasClearedLevel()
@@ -103,8 +110,11 @@ public class GameManager : MonoBehaviour
     public void PlayerGetsEnergizer(Vector2 _PelletPos)
     {
         _playerEP++;
+        Debug.Log( _playerEP + "/4 POWER PELLET");
+        lockAnim = GameObject.Find("lock_" + _playerEP.ToString()).GetComponent<Animator>();
+        Debug.Log(lockAnim.name);
+        lockAnim.SetTrigger("locks");
         Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_PELLETCOLLECTED", "PELLET_" + _playerEP.ToString()+ "/4_ATPOSITION_ " + _PelletPos + "_TIMEINSECONDS_" + Time.time);
-        Debug.Log( _playerEP + "/4 POWER PELLET" + _PelletPos);
     }
 
     public void GhostHitsPlayer(string _GhostName, Vector2 _GhostPos)
@@ -115,6 +125,20 @@ public class GameManager : MonoBehaviour
         ResetRound();
 
     }
+
+     public void CatchPosition() {
+        float pX = playerPosition.transform.position.x;
+        float pY = playerPosition.transform.position.z;
+        roundMovement.Add("[" + pX.ToString() + "," + pY.ToString() + "]");
+    }
+
+    public void StopTracking()
+    {
+        string str = string.Join(", ", roundMovement);
+        Tinylytics.AnalyticsManager.LogCustomMetric("TEST_MOVEARRAY", str);
+        Debug.Log(str);
+    } 
+
 
     public void SaveGame()
     {
@@ -131,6 +155,7 @@ public class GameManager : MonoBehaviour
             _isGameOver = false;
             _playerEP = 0;
             trialNum = trialNum + 1;
+            StopTracking();
             ResetScene();
             newTrial();
         }
@@ -214,6 +239,9 @@ public class GameManager : MonoBehaviour
 
         gameState = GameState.Init;  
         gui.H_ShowReadyScreen();
+
+        player = GameObject.Find("pacman").GetComponent<GameObject>();
+        playerPosition = GameObject.Find("pacman").GetComponent<Transform>();
 
 	}
 
