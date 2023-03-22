@@ -44,7 +44,6 @@ public class ScoreManager : MonoBehaviour {
 
     IEnumerator GetHighestScore()
     {
-        Debug.Log("GETTING HIGHEST SCORE");
         // wait until scores are pulled from database
         float timeOut = Time.time + 4;
         while (!_scoresRead)
@@ -52,7 +51,7 @@ public class ScoreManager : MonoBehaviour {
             yield return new WaitForSeconds(0.01f);
             if (Time.time > timeOut)
             {
-                Debug.Log("Timed out");
+                Debug.Log("Timed out on Highest Score");
                 //scoreList.Clear();
                 //scoreList.Add(new Score("GetHighestScore:: DATABASE CONNECTION TIMED OUT", -1));
                 break;

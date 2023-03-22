@@ -33,7 +33,7 @@ public class UIScript : MonoBehaviour {
         // update score text
         score = GameManager.score;
 		txt_score.text = "Score\n" + score;
-		txt_high.text = "Highest Score\n" + high;
+		txt_high.text = "High Score\n" + high;
 	    txt_level.text = "Trial\n" + (GameManager.Level + 1);
 
 	}
