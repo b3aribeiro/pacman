@@ -156,6 +156,7 @@ public class GameManager : MonoBehaviour
     {
         //if you want to know how lond the entire set of trials took, you can add your tinyLytics call here
         sceneName = "ending"; //this name is used in the Coroutine, which is basically just a pause timer for 3 seconds.
+        Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_TRIALENDED", "LOCALENDTIME_" + System.DateTime.Now);
         StartCoroutine(WaitForSceneLoad());
 
     }
