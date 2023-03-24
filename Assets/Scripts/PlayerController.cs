@@ -63,25 +63,25 @@ public class PlayerController : MonoBehaviour
         GetComponent<Animator>().SetBool("Die", false);
         _deadPlaying = false;
 
-        if (GameManager.lives <= 0)
-        {
-            Debug.Log("Treshold for High Score: " + SM.LowestHigh());
-            if (GameManager.score >= SM.LowestHigh())
-            {
-                GUINav.getScoresMenu();
-                Debug.Log("Getting Score Menu through PC");
-            }
-            else
-            {
-                GUINav.H_ShowGameOverScreen();
-                Debug.Log("Showing Game Over Screen through PC");
-            }
-        }
-        else
-        {
+     //   if (GameManager.lives <= 0)
+     //   {
+    //        Debug.Log("Treshold for High Score: " + SM.LowestHigh());
+    //        if (GameManager.score >= SM.LowestHigh())
+    //        {
+     //           GUINav.getScoresMenu();
+     //           Debug.Log("Getting Score Menu through PC");
+     //       }
+     //       else
+    //        {
+     //           GUINav.H_ShowGameOverScreen();
+     //           Debug.Log("Showing Game Over Screen through PC");
+    //        }
+     //   }
+     //   else
+    //    {
             GM.ResetScene();
             Debug.Log("PlayerDeadAnimation. Else empty");
-        }
+     //   }
     }
 
     void Animate()

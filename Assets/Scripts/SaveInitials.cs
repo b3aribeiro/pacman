@@ -31,6 +31,7 @@ public class SaveInitials : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            Screen.fullScreen = true;
             SceneManager.LoadScene("Opening_Scene");
         }
     }

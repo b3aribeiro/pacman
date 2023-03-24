@@ -305,7 +305,7 @@ public class GhostMove : MonoBehaviour {
 		       
 		    else
 		    {
-		        _gm.LoseLife();
+		        //_gm.LoseLife();
 				_gm.GhostHitsPlayer(gameObject.name, gameObject.transform.position);
 		    }
 
