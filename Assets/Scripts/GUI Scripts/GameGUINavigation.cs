@@ -67,12 +67,12 @@ public class GameGUINavigation : MonoBehaviour {
         StartCoroutine("ShowGameOverScreen");
     }
 
-	IEnumerator ShowReadyScreen(float seconds)
+	IEnumerator ShowReadyScreen()
 	{
 		//initialWaitOver = false;
 		GameManager.gameState = GameManager.GameState.Init;
 		ReadyCanvas.enabled = true;
-		yield return new WaitForSeconds(seconds);
+		yield return new WaitForSeconds(1);
 		ReadyCanvas.enabled = false;
 		GameManager.gameState = GameManager.GameState.Game;
 		//initialWaitOver = true;
@@ -82,9 +82,9 @@ public class GameGUINavigation : MonoBehaviour {
     {
         Debug.Log("Showing GAME OVER Screen");
         GameOverCanvas.enabled = true;
-        yield return new WaitForSeconds(2);
-        //Menu();
+        yield return new WaitForSeconds(1);
 		GameOverCanvas.enabled = false;
+        //Menu();
     }
 
 	public void getScoresMenu()
