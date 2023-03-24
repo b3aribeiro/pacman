@@ -120,12 +120,12 @@ public class GameManager : MonoBehaviour
                 lockAnim.SetTrigger("open");
                 Debug.Log(trialName + lockAnim.name); 
 
-                if (_playerEP == 3 && trialName == "harkness")
-                {
-                    eyeAnim = GameObject.Find("spooky").GetComponent<Animator>(); 
-                    Debug.Log(trialName + eyeAnim.name); 
-                    eyeAnim.SetTrigger("zoom");
-                }
+         //       if (_playerEP == 3 && trialName == "harkness")
+           //     {
+             //       eyeAnim = GameObject.Find("spooky").GetComponent<Animator>(); 
+               //     Debug.Log(trialName + eyeAnim.name); 
+                 //   eyeAnim.SetTrigger("zoom");
+                //}
             }
         
         Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_PELLETCOLLECTED", "PELLET_" + _playerEP.ToString()+ "/4_ATPOSITION_ " + _PelletPos + "_TIMEINSECONDS_" + Time.time);
