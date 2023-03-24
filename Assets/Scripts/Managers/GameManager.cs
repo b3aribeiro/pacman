@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public Transform playerPosition;
     public Animator lockAnim;
+    public Animator eyeAnim;
 
     public List<string> roundMovement = new List<string>();
     //--------------------------------------------------------
@@ -93,9 +94,11 @@ public class GameManager : MonoBehaviour
 		gameState = GameState.Init;
 
         trialNum = GlobalControl.Instance.trialNum;
-        trialName = GlobalControl.Instance.trialName;
         trials = GlobalControl.Instance.trials;
+        trialName = GlobalControl.Instance.trialName;
         userInitial = GlobalControl.Instance.userInitial;
+        
+        trialName = trials[trialNum];
 
         InvokeRepeating("CatchPosition", 0f, 1);  //0 delay, repeat every 1s 0f, 0.25f
 	}
@@ -110,13 +113,21 @@ public class GameManager : MonoBehaviour
     public void PlayerGetsEnergizer(Vector2 _PelletPos)
     {
         _playerEP++;
-        Debug.Log( _playerEP + "/4 POWER PELLET");
+
         if(_playerEP <= 3)
             {
-                lockAnim = GameObject.Find("lock_" + _playerEP.ToString()).GetComponent<Animator>(); 
-                Debug.Log(lockAnim.name);
+                lockAnim = GameObject.Find("lock_" + _playerEP.ToString()).GetComponent<Animator>();
                 lockAnim.SetTrigger("open");
+                Debug.Log(trialName + lockAnim.name); 
+
+                if (_playerEP == 3 && trialName == "harkness")
+                {
+                    eyeAnim = GameObject.Find("spooky").GetComponent<Animator>(); 
+                    Debug.Log(trialName + eyeAnim.name); 
+                    eyeAnim.SetTrigger("zoom");
+                }
             }
+        
         Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_PELLETCOLLECTED", "PELLET_" + _playerEP.ToString()+ "/4_ATPOSITION_ " + _PelletPos + "_TIMEINSECONDS_" + Time.time);
     }
 
@@ -138,7 +149,7 @@ public class GameManager : MonoBehaviour
     public void StopTracking()
     {
         string str = string.Join(", ", roundMovement);
-        Tinylytics.AnalyticsManager.LogCustomMetric("TEST_MOVEARRAY", str);
+        Tinylytics.AnalyticsManager.LogCustomMetric("TEST_PACMOVEMENT", str);
         Debug.Log(str);
     } 
 
@@ -155,8 +166,11 @@ public class GameManager : MonoBehaviour
     {
         if (_isGameOver == true)
         {
+            _isGameOver = false;
+            _playerEP = 0;
             StopTracking();
             newTrial();
+            ResetScene();
         }
     }
 
@@ -166,8 +180,9 @@ public class GameManager : MonoBehaviour
         
         if (trialNum < trials.Count)
         {
-            trialName = trials[trialNum];
+            trialNum = trialNum + 1;
             SaveGame();
+            trialName = trials[trialNum];
 
             sceneName = "interstitial"; //this name is used in the Coroutine, which is basically just a pause timer for 3 seconds.
 
@@ -187,8 +202,6 @@ public class GameManager : MonoBehaviour
       private IEnumerator WaitForSceneLoad()
     {
         yield return new WaitForSeconds(2);
-        
-        ResetScene();
         SceneManager.LoadScene(sceneName);
     }
 
@@ -224,11 +237,6 @@ public class GameManager : MonoBehaviour
 
 	public void ResetScene()
 	{
-        
-        _playerEP = 0;
-        _isGameOver = false;
-        trialNum = trialNum + 1;
-
         CalmGhosts();
 
 		pacman.transform.position = new Vector3(15f, 11f, 0f);
@@ -243,13 +251,12 @@ public class GameManager : MonoBehaviour
 		inky.GetComponent<GhostMove>().InitializeGhost();
 		clyde.GetComponent<GhostMove>().InitializeGhost();
 
-        gameState = GameState.Init;
-        
         player = GameObject.Find("pacman").GetComponent<GameObject>();
         playerPosition = GameObject.Find("pacman").GetComponent<Transform>();
 
-        gui.H_ShowReadyScreen();
+        gameState = GameState.Init;
 
+        gui.H_ShowReadyScreen();
 
 	}
 

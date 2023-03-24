@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class ScoreManager : MonoBehaviour {
 
@@ -86,9 +87,10 @@ public class ScoreManager : MonoBehaviour {
         yield return new WaitForSeconds(0f);
     }
 
-    IEnumerator ReadScoresFromDB()
+    /*IEnumerator ReadScoresFromDB()
     {
-        WWW GetScoresAttempt = new WWW(TopScoresURL);
+        
+        UnityWebRequest GetScoresAttempt = new UnityWebRequest(TopScoresURL);
         yield return GetScoresAttempt;
 
         if (GetScoresAttempt.error != null)
@@ -136,8 +138,8 @@ public class ScoreManager : MonoBehaviour {
                 _scoresRead = true;
             }
         }
-
-    }
+        
+    }*/
 
     public int High()
     {

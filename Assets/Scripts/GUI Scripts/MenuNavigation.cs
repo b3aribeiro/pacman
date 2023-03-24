@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class MenuNavigation : MonoBehaviour {
-
+/*
 	public void MainMenu()
 	{
 		Application.LoadLevel("menu");
@@ -33,4 +33,5 @@ public class MenuNavigation : MonoBehaviour {
 	{
 		Application.OpenURL("https://github.com/vilbeyli/Pacman-Clone/");
 	}
+	*/
 }
