@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 public class GameGUINavigation : MonoBehaviour {
 
@@ -72,7 +73,7 @@ public class GameGUINavigation : MonoBehaviour {
 		//initialWaitOver = false;
 		GameManager.gameState = GameManager.GameState.Init;
 		ReadyCanvas.enabled = true;
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(4);
 		ReadyCanvas.enabled = false;
 		GameManager.gameState = GameManager.GameState.Game;
 		//initialWaitOver = true;
@@ -154,9 +155,9 @@ public class GameGUINavigation : MonoBehaviour {
         string AddScoreURL = "http://ilbeyli.byethost18.com/addscore.php?";
         string hash = Md5Sum(name + score + privateKey);
 
-        Debug.Log("Name: " + name + " Escape: " + WWW.EscapeURL(name));
+        Debug.Log("Name: " + name + " Escape: " + UnityWebRequest.EscapeURL(name));
 
-        WWW ScorePost = new WWW(AddScoreURL + "name=" + WWW.EscapeURL(name) + "&score=" + score + "&hash=" + hash );
+        UnityWebRequest ScorePost = new UnityWebRequest(AddScoreURL + "name=" + UnityWebRequest.EscapeURL(name) + "&score=" + score + "&hash=" + hash );
         yield return ScorePost;
 
         if (ScorePost.error == null)
