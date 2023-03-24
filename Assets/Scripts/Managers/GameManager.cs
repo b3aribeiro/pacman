@@ -111,9 +111,12 @@ public class GameManager : MonoBehaviour
     {
         _playerEP++;
         Debug.Log( _playerEP + "/4 POWER PELLET");
-        lockAnim = GameObject.Find("lock_" + _playerEP.ToString()).GetComponent<Animator>();
-        Debug.Log(lockAnim.name);
-        lockAnim.SetTrigger("open");
+        if(_playerEP <= 3)
+            {
+                lockAnim = GameObject.Find("lock_" + _playerEP.ToString()).GetComponent<Animator>(); 
+                Debug.Log(lockAnim.name);
+                lockAnim.SetTrigger("open");
+            }
         Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_PELLETCOLLECTED", "PELLET_" + _playerEP.ToString()+ "/4_ATPOSITION_ " + _PelletPos + "_TIMEINSECONDS_" + Time.time);
     }
 
@@ -150,13 +153,9 @@ public class GameManager : MonoBehaviour
 
     private void ResetRound()
     {
-        if (_playerEP == winningScore || _isGameOver == true)
+        if (_isGameOver == true)
         {
-            _isGameOver = false;
-            _playerEP = 0;
-            trialNum = trialNum + 1;
             StopTracking();
-            ResetScene();
             newTrial();
         }
     }
@@ -188,6 +187,8 @@ public class GameManager : MonoBehaviour
       private IEnumerator WaitForSceneLoad()
     {
         yield return new WaitForSeconds(2);
+        
+        ResetScene();
         SceneManager.LoadScene(sceneName);
     }
 
@@ -223,6 +224,11 @@ public class GameManager : MonoBehaviour
 
 	public void ResetScene()
 	{
+        
+        _playerEP = 0;
+        _isGameOver = false;
+        trialNum = trialNum + 1;
+
         CalmGhosts();
 
 		pacman.transform.position = new Vector3(15f, 11f, 0f);
@@ -237,11 +243,13 @@ public class GameManager : MonoBehaviour
 		inky.GetComponent<GhostMove>().InitializeGhost();
 		clyde.GetComponent<GhostMove>().InitializeGhost();
 
-        gameState = GameState.Init;  
-        gui.H_ShowReadyScreen();
-
+        gameState = GameState.Init;
+        
         player = GameObject.Find("pacman").GetComponent<GameObject>();
         playerPosition = GameObject.Find("pacman").GetComponent<Transform>();
+
+        gui.H_ShowReadyScreen();
+
 
 	}
 
