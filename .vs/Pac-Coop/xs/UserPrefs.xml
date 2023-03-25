@@ -1,0 +1,27 @@
+﻿<Properties StartupConfiguration="{F4F351F5-7195-524C-0F62-078DDE1E3104}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/SaveInitials.cs">
+    <Files>
+      <File FileName="Assets/Scripts/SaveInitials.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Pac-Coop" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="SaveInitials.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="d8286ebe-9b36-4375-930a-8570afd27aa5" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
