@@ -4,6 +4,7 @@ using System.Collections;
 using System.Text.RegularExpressions;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class GameGUINavigation : MonoBehaviour {
 
@@ -70,10 +71,11 @@ public class GameGUINavigation : MonoBehaviour {
 
 	IEnumerator ShowReadyScreen()
 	{
+        Debug.Log("Showing READY Screen");
 		//initialWaitOver = false;
 		GameManager.gameState = GameManager.GameState.Init;
 		ReadyCanvas.enabled = true;
-		yield return new WaitForSeconds(4);
+		yield return new WaitForSeconds(2);
 		ReadyCanvas.enabled = false;
 		GameManager.gameState = GameManager.GameState.Game;
 		//initialWaitOver = true;
@@ -142,7 +144,7 @@ public class GameGUINavigation : MonoBehaviour {
 
 	public void Menu()
 	{
-		Application.LoadLevel("Initials");
+		SceneManager.LoadScene("Initials");
 		Time.timeScale = 1.0f;
 
         // take care of game manager
@@ -169,7 +171,6 @@ public class GameGUINavigation : MonoBehaviour {
             GameManager.score = 0;
             GameManager.Level = 0;
 
-            Application.LoadLevel("scores");
             Time.timeScale = 1.0f;
         }
         else
@@ -213,12 +214,6 @@ public class GameGUINavigation : MonoBehaviour {
         else                                StartCoroutine(AddScore(username, highscore));
 	    
 	}
-
-    public void LoadLevel()
-    {
-        GameManager.Level++;
-        Application.LoadLevel("game");
-    }
 
     public void ToggleErrorMsg(string errorMsg)
     {

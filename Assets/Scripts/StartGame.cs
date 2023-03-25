@@ -38,8 +38,10 @@ public class StartGame : MonoBehaviour
         {
             trialNum = 0; //set the trial number to the first item in the list
             GlobalControl.Instance.trialNum = trialNum; //this will set the trialNum to the first in the list
-            Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_TRIALBEGUN", "LOCALSTARTTIME_" + System.DateTime.Now);
             trialName = GlobalControl.Instance.trials[trialNum];
+            GlobalControl.Instance.trialName = trialName;
+
+            Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_TRIALBEGUN", "LOCALSTARTTIME_" + System.DateTime.Now);
             SceneManager.LoadScene(trialName);
         }
     }

@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public Animator lockAnim;
     public Animator eyeAnim;
 
+    public bool inFullScreen;
+
     public List<string> roundMovement = new List<string>();
     //--------------------------------------------------------
     // Game variables
@@ -74,6 +76,8 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        inFullScreen = true;
+
         if (_instance == null)
         {
             _instance = this;
@@ -90,22 +94,20 @@ public class GameManager : MonoBehaviour
 
 	void Start () 
 	{
-        Debug.Log("startmanager");
 		gameState = GameState.Init;
 
         trialNum = GlobalControl.Instance.trialNum;
         trials = GlobalControl.Instance.trials;
-        trialName = GlobalControl.Instance.trialName;
         userInitial = GlobalControl.Instance.userInitial;
+        trialName = GlobalControl.Instance.trialName;
         
-        trialName = trials[trialNum];
-
         InvokeRepeating("CatchPosition", 0f, 1);  //0 delay, repeat every 1s 0f, 0.25f
 	}
 
     public void PlayerHasClearedLevel()
     {   
         _isGameOver = true;
+        Time.timeScale = 0;
         Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_LEVELCLEARED", "ROUND_" + trialNum + "0/6_TIMEINSECONDS_" + Time.time);
         ResetRound();
     }
@@ -134,6 +136,7 @@ public class GameManager : MonoBehaviour
     public void GhostHitsPlayer(string _GhostName, Vector2 _GhostPos)
     {   
         _isGameOver = true;
+        Time.timeScale = 0;
         Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_HASDIED", "COLLIDEDWITH_" + _GhostName + "_ATPOSITION_ " + _GhostPos + "_TIMEINSECONDS_" + Time.time);
         Debug.Log( _playerEP + "/4 POWER PELLET" + _GhostPos);
         ResetRound();
@@ -170,7 +173,19 @@ public class GameManager : MonoBehaviour
             _playerEP = 0;
             StopTracking();
             newTrial();
-            ResetScene();
+            StartCoroutine(CheckSceneOrWait());
+        }
+    }
+
+    private IEnumerator CheckSceneOrWait()
+    {
+        Scene currentScene = SceneManager.GetActiveScene();
+        
+        if(currentScene.name != "interstitial") ResetScene();
+        else 
+        {
+            yield return new WaitForSeconds(1);
+            StartCoroutine(CheckSceneOrWait());
         }
     }
 
@@ -181,8 +196,9 @@ public class GameManager : MonoBehaviour
         if (trialNum < trials.Count)
         {
             trialNum = trialNum + 1;
-            SaveGame();
             trialName = trials[trialNum];
+            
+            SaveGame();
 
             sceneName = "interstitial"; //this name is used in the Coroutine, which is basically just a pause timer for 3 seconds.
 
@@ -201,7 +217,7 @@ public class GameManager : MonoBehaviour
     }
       private IEnumerator WaitForSceneLoad()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         SceneManager.LoadScene(sceneName);
     }
 
@@ -214,11 +230,11 @@ public class GameManager : MonoBehaviour
         ResetVariables();
 
         // Adjust Ghost variables! SpeedPerLevel was 0.025
-        //clyde.GetComponent<GhostMove>().speed += Level * SpeedPerLevel;
-        //blinky.GetComponent<GhostMove>().speed += Level * SpeedPerLevel;
-        //pinky.GetComponent<GhostMove>().speed += Level * SpeedPerLevel;
-        //inky.GetComponent<GhostMove>().speed += Level * SpeedPerLevel;
-        //pacman.GetComponent<PlayerController>().speed += Level*SpeedPerLevel/2;
+        clyde.GetComponent<GhostMove>().speed += Level * SpeedPerLevel;
+        blinky.GetComponent<GhostMove>().speed += Level * SpeedPerLevel;
+        pinky.GetComponent<GhostMove>().speed += Level * SpeedPerLevel;
+        inky.GetComponent<GhostMove>().speed += Level * SpeedPerLevel;
+        pacman.GetComponent<PlayerController>().speed += Level*SpeedPerLevel/2;
     }
 
     private void ResetVariables()
@@ -231,12 +247,23 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
 	void Update () 
 	{
+        if (Screen.fullScreen == false) inFullScreen = false;
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log(inFullScreen);
+            Tinylytics.AnalyticsManager.LogCustomMetric("FullSreen Mode is " , inFullScreen);
+            endGame();
+        }
+
 		if(scared && _timeToCalm <= Time.time)
 			CalmGhosts();
 	}
 
 	public void ResetScene()
 	{
+        Time.timeScale = 1;
+        
         CalmGhosts();
 
 		pacman.transform.position = new Vector3(15f, 11f, 0f);
@@ -244,6 +271,7 @@ public class GameManager : MonoBehaviour
 		pinky.transform.position = new Vector3(14.5f, 17f, 0f);
 		inky.transform.position = new Vector3(16.5f, 17f, 0f);
 		clyde.transform.position = new Vector3(12.5f, 17f, 0f);
+        Debug.Log("Moving Ghost!");
 
 		pacman.GetComponent<PlayerController>().ResetDestination();
 		blinky.GetComponent<GhostMove>().InitializeGhost();
@@ -254,9 +282,13 @@ public class GameManager : MonoBehaviour
         player = GameObject.Find("pacman").GetComponent<GameObject>();
         playerPosition = GameObject.Find("pacman").GetComponent<Transform>();
 
+        if(player == null) Debug.Log("Player Null on Reset!");
+        if(playerPosition == null) Debug.Log("Player Null on Reset!");
+
         gameState = GameState.Init;
 
         gui.H_ShowReadyScreen();
+        
 
 	}
 
@@ -297,13 +329,20 @@ public class GameManager : MonoBehaviour
         blinky = GameObject.Find("blinky");
         pacman = GameObject.Find("pacman");
 
-        if (clyde == null || pinky == null || inky == null || blinky == null) Debug.Log("One of ghosts are NULL");
-        if (pacman == null) Debug.Log("Pacman is NULL");
+        if (clyde == null || pinky == null || inky == null || blinky == null)
+        {
+            Debug.Log("One of ghosts are NULL");
+            AssignGhosts();
+        }
+        if (pacman == null)
+        {
+            Debug.Log("Pacman is NULL");
+            AssignGhosts();
+        } 
 
         gui = GameObject.FindObjectOfType<GameGUINavigation>();
 
         if(gui == null) Debug.Log("GUI Handle Null!");
-
     }
 
     public void LoseLife()
