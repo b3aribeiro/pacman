@@ -252,7 +252,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             Debug.Log(inFullScreen);
-            Tinylytics.AnalyticsManager.LogCustomMetric("FullSreen Mode is " , inFullScreen);
+            Tinylytics.AnalyticsManager.LogCustomMetric("FullSreen Mode is " , inFullScreen.ToString());
             endGame();
         }
 
