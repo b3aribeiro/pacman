@@ -31,7 +31,7 @@ public class MenuNavigation : MonoBehaviour {
 
 	public void SourceCode()
 	{
-		Application.OpenURL("https://github.com/vilbeyli/Pacman-Clone/");
+
 	}
 	*/
 }

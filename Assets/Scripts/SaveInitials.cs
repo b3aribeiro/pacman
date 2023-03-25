@@ -10,7 +10,7 @@ public class SaveInitials : MonoBehaviour
 {
     TMP_InputField _inputField;
 
-    public static string name;
+    public static string playerName;
 
     void Start()
     {
@@ -22,9 +22,9 @@ public class SaveInitials : MonoBehaviour
     {
         name = _inputField.text;
         
-        GlobalControl.Instance.userInitial = name;
+        GlobalControl.Instance.userInitial = playerName;
         
-        Tinylytics.AnalyticsManager.LogCustomMetric("NEWUSERJOINED", name);
+        Tinylytics.AnalyticsManager.LogCustomMetric("NEWUSERJOINED", playerName);
     }
 
     void Update()

@@ -1,0 +1,54 @@
+﻿<Properties StartupConfiguration="{F4F351F5-7195-524C-0F62-078DDE1E3104}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/URL.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Managers/GameManager.cs" Line="208" Column="26" />
+      <File FileName="Assets/Scripts/Managers/ScoreManager.cs" Line="10" Column="6" />
+      <File FileName="Assets/Scripts/SaveInitials.cs" Line="22" Column="6" />
+      <File FileName="Library/PackageCache/com.unity.services.mediation@1.0.5/Runtime/Tools/Logger/MediationLogger.cs" Line="27" Column="1" />
+      <File FileName="Assets/Scripts/GUI Scripts/Scores.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/PlayerController.cs" Line="26" Column="6" />
+      <File FileName="Assets/Scripts/UIScript.cs" Line="31" Column="11" />
+      <File FileName="Assets/Scripts/GUI Scripts/NameToTitle.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GUI Scripts/GameGUINavigation.cs" Line="57" Column="15" />
+      <File FileName="Assets/Scripts/GUI Scripts/MenuNavigation.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GUI Scripts/Move.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GUI Scripts/PacdotSpawner.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/MusicManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Managers/TileManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/AI.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Energizer.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/EyeGaze.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GhostMove.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/GlobalControl.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Interstitial.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Pacdot.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Point.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/ResetTrials.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/StartGame.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/TargetGizmo.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/URL.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Pac-Coop" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="GUI Scripts" expanded="True" />
+                <Node name="Managers" expanded="True" />
+                <Node name="URL.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="a6c4bb0d-978c-49bf-b8cf-bb425155f193" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

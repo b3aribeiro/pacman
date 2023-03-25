@@ -28,7 +28,7 @@ public class UIScript : MonoBehaviour {
 	void Update () 
 	{
 
-        high = GameObject.Find("Game Manager").GetComponent<ScoreManager>().High();
+        //high = GameObject.Find("Game Manager").GetComponent<ScoreManager>().High();
 
         // update score text
         score = GameManager.score;

@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     // script handles
     private GameGUINavigation GUINav;
     private GameManager GM;
-    private ScoreManager SM;
+   // private ScoreManager SM;
 
     private bool _deadPlaying = false;
 
@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         GM = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        SM = GameObject.Find("Game Manager").GetComponent<ScoreManager>();
+       // SM = GameObject.Find("Game Manager").GetComponent<ScoreManager>();
         GUINav = GameObject.Find("UI Manager").GetComponent<GameGUINavigation>();
         _dest = transform.position;
     }
