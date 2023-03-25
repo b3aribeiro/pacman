@@ -107,7 +107,6 @@ public class GameManager : MonoBehaviour
     public void PlayerHasClearedLevel()
     {   
         _isGameOver = true;
-        Time.timeScale = 0;
         Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_LEVELCLEARED", "ROUND_" + trialNum + "0/6_TIMEINSECONDS_" + Time.time);
         ResetRound();
     }
@@ -119,13 +118,11 @@ public class GameManager : MonoBehaviour
         if(_playerEP <= 3)
             {
                 lockAnim = GameObject.Find("lock_" + _playerEP.ToString()).GetComponent<Animator>();
-                lockAnim.SetTrigger("open");
-                Debug.Log(trialName + lockAnim.name); 
+                lockAnim.SetTrigger("open"); 
 
                 if (_playerEP == 3 && trialName == "harkness")
                 {
-                    eyeAnim = GameObject.Find("spooky").GetComponent<Animator>(); 
-                    Debug.Log(trialName + eyeAnim.name); 
+                    eyeAnim = GameObject.Find("spooky").GetComponent<Animator>();
                     eyeAnim.SetTrigger("zoom");
                 }
             }
@@ -136,9 +133,7 @@ public class GameManager : MonoBehaviour
     public void GhostHitsPlayer(string _GhostName, Vector2 _GhostPos)
     {   
         _isGameOver = true;
-        Time.timeScale = 0;
         Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_HASDIED", "COLLIDEDWITH_" + _GhostName + "_ATPOSITION_ " + _GhostPos + "_TIMEINSECONDS_" + Time.time);
-        Debug.Log( _playerEP + "/4 POWER PELLET" + _GhostPos);
         ResetRound();
 
     }
@@ -173,28 +168,26 @@ public class GameManager : MonoBehaviour
             _playerEP = 0;
             StopTracking();
             newTrial();
-            StartCoroutine(CheckSceneOrWait());
+            StartCoroutine(WaitXSeconds(2));
         }
     }
 
-    private IEnumerator CheckSceneOrWait()
+    private IEnumerator WaitXSeconds(int sec)
     {
-        Scene currentScene = SceneManager.GetActiveScene();
-        
-        if(currentScene.name != "interstitial") ResetScene();
-        else 
         {
-            yield return new WaitForSeconds(1);
-            StartCoroutine(CheckSceneOrWait());
+            yield return new WaitForSeconds(sec);
+            ResetScene();
         }
     }
 
     void newTrial()
     {
-        //Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_ROUNDSTARTED", trialNum.ToString() + "/6 at " + trialName.ToString() + System.DateTime.Now);
+        Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_ROUNDSTARTED", trialNum.ToString() + "/6 at " + trialName.ToString() + System.DateTime.Now);
         
-        if (trialNum < trials.Count)
+        if (trialNum < trials.Count-1)
         {
+            
+            Debug.Log("trial num is " + trialNum + " trial count is" + trials.Count);
             trialNum = trialNum + 1;
             trialName = trials[trialNum];
             
@@ -209,11 +202,9 @@ public class GameManager : MonoBehaviour
 
     void endGame()
     {
-        //if you want to know how lond the entire set of trials took, you can add your tinyLytics call here
-        sceneName = "ending"; //this name is used in the Coroutine, which is basically just a pause timer for 3 seconds.
         Tinylytics.AnalyticsManager.LogCustomMetric(userInitial + "_TRIALENDED", "LOCALENDTIME_" + System.DateTime.Now);
+        sceneName = "ending";
         StartCoroutine(WaitForSceneLoad());
-
     }
       private IEnumerator WaitForSceneLoad()
     {
@@ -262,8 +253,9 @@ public class GameManager : MonoBehaviour
 
 	public void ResetScene()
 	{
-        Time.timeScale = 1;
-        
+
+        gameState = GameState.Init;
+
         CalmGhosts();
 
 		pacman.transform.position = new Vector3(15f, 11f, 0f);
@@ -284,9 +276,8 @@ public class GameManager : MonoBehaviour
 
         if(player == null) Debug.Log("Player Null on Reset!");
         if(playerPosition == null) Debug.Log("Player Null on Reset!");
-
-        gameState = GameState.Init;
-
+        
+        //gameState = GameState.Init;
         gui.H_ShowReadyScreen();
         
 
@@ -329,17 +320,10 @@ public class GameManager : MonoBehaviour
         blinky = GameObject.Find("blinky");
         pacman = GameObject.Find("pacman");
 
-        if (clyde == null || pinky == null || inky == null || blinky == null)
-        {
-            Debug.Log("One of ghosts are NULL");
-            AssignGhosts();
-        }
-        if (pacman == null)
-        {
-            Debug.Log("Pacman is NULL");
-            AssignGhosts();
-        } 
-
+        if (clyde == null || pinky == null || inky == null || blinky == null) Debug.Log("One of ghosts are NULL");
+        
+        if (pacman == null) Debug.Log("Pacman is NULL");
+            
         gui = GameObject.FindObjectOfType<GameGUINavigation>();
 
         if(gui == null) Debug.Log("GUI Handle Null!");

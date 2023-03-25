@@ -20,8 +20,8 @@ public class AI : MonoBehaviour {
 		manager = GameObject.Find("Game Manager").GetComponent<TileManager>();
 		tiles = manager.tiles;
 
-		if(ghost == null)	Debug.Log ("game object ghost not found");
-		if(manager == null)	Debug.Log ("game object Game Manager not found");
+		if(ghost == null)	Debug.Log ("AI ERRROR: game object ghost not found");
+		if(manager == null)	Debug.Log ("AI ERRROR: game object Game Manager not found");
 	}
 
 	public void AILogic()

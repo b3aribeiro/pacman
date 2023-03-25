@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
         GetComponent<Animator>().SetBool("Die", false);
         _deadPlaying = false;
 
+        /*
         if (GameManager.lives <= 0)
         {
             Debug.Log("Treshold for High Score: " + SM.LowestHigh());
@@ -82,6 +83,7 @@ public class PlayerController : MonoBehaviour
             GM.ResetScene();
             Debug.Log("PlayerDeadAnimation. Else empty");
         }
+        */
     }
 
     void Animate()

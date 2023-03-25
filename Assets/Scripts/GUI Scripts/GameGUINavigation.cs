@@ -75,7 +75,7 @@ public class GameGUINavigation : MonoBehaviour {
 		//initialWaitOver = false;
 		GameManager.gameState = GameManager.GameState.Init;
 		ReadyCanvas.enabled = true;
-		yield return new WaitForSeconds(2);
+		yield return new WaitForSeconds(1);
 		ReadyCanvas.enabled = false;
 		GameManager.gameState = GameManager.GameState.Game;
 		//initialWaitOver = true;
